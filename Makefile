@@ -1,4 +1,22 @@
-all:
-	g++ src/main.cpp -lraylib -o game
-	
+CXX=g++
+CXX_FLAGS=-Isrc -Wall -std=c++23
+LIBS=-lraylib
+
+SRCS=$(wildcard src/*.cpp)
+OBJS=$(SRCS:.cpp=.o)
+
+TARGET=game
+
+$(TARGET): $(OBJS)
+	$(CXX) $^ -o $@ $(LIBS) 
+
+src/%.o: src/$.cpp
+	$(CXX) $(CXX_FLAGS) -c $< -o $@
+
+.PHONY: clean
+
+clean:
+	rm -f src/*.o $(TARGET)
+
+# Are these used?
 #-lGL -lm -lpthread -ldl -lrt -lX11
