@@ -1,4 +1,4 @@
 #pragma once
 
-inline constexpr int screenWidth = 800;
-inline constexpr int screenHeight = 450;
+inline constexpr int screenWidth = 1000;
+inline constexpr int screenHeight = 650;

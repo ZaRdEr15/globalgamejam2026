@@ -4,10 +4,17 @@
 #include "common.h"
 
 inline Rectangle gPlayer = {
-    .x = screenWidth / 2,
-    .y = screenHeight / 2,
-    .width = screenWidth / 10,
-    .height = screenHeight / 10
+    .x = 100,
+    .y = 5,
+    .width = 50,
+    .height = 100
 };
 
-void movePlayer(Rectangle &rect, float delta);
+inline const Rectangle gFloor = {
+    .x = screenWidth / 2,
+    .y = 250,
+    .width = 1000,
+    .height = 10,
+};
+
+void movePlayer(float delta);

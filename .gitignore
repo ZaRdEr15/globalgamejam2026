@@ -1,2 +1,3 @@
 game
 src/*.o
+src/*.d
