@@ -9,6 +9,7 @@ void drawHelp() {
     constexpr int kFontSize = 20;
     DrawText("W (ARROW UP) - JUMP", kHelpXOffset, 0, kFontSize, WHITE);
     DrawText("A/D (ARROW LEFT/ARROW RIGHT) - LEFT-RIGHT", kHelpXOffset, 30, kFontSize, WHITE);
+    // ADD EXPLANATION ON Z, X KEYS!
 }
 
 int main(void) {

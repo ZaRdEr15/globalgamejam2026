@@ -58,8 +58,12 @@ void Player::draw() {
         playerSprite = getTile(tiles::CHAR_IDLE);
     }
 
-    if (std::abs(velocity.y) > 0.1) {
+    if ((std::abs(velocity.y) > 0.1) && canJump) {
         playerSprite = getTile(tiles::CHAR_JUMP);
+    }
+
+    if (IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_X)) {
+        PlaySound(maskSound);
     }
 
     Rectangle source{};
