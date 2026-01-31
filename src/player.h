@@ -3,9 +3,10 @@
 #include "raylib.h"
 
 struct Player {
+    // Player movement constants
     static constexpr float kMaxSpeed = 320.0;
     static constexpr float kAcceleration = 320.0;
-    static constexpr float kFriction = 8.0;
+    static constexpr float kFriction = 15.0;
     static constexpr float kGravity = 1000;
     static constexpr float kFallGravity = 2000;
     static constexpr float kJumpVelocity = 500.0;
@@ -15,7 +16,14 @@ struct Player {
     bool canJump;
     Rectangle collision;
 
+    Sound jumpSound;
+    Sound maskSound;
+    Sound deathSound;
+    Sound winSound;
+
     Player(Vector2 pos);
+    ~Player();
+    void loadSounds();
     void updatePosition(float delta, Rectangle floorCollisionRect);
     void syncCollisionRect();
     float getGravity();

@@ -1,6 +1,6 @@
 CXX=g++
 CXX_FLAGS=-Isrc -Wall -std=c++23 -MMD -MP
-LIBS=-lraylib # -lGL -lm -lpthread -ldl -lrt -lX11
+LIBS=-lraylib -lm -ldl -lrt # math, dynamic linker and real-time
 
 SRCS=$(wildcard src/*.cpp)
 OBJS=$(SRCS:.cpp=.o)

@@ -5,10 +5,12 @@
 
 int main(void) {
     InitWindow(screenWidth, screenHeight, kGameTitle.c_str());
+    InitAudioDevice();
     SetTargetFPS(60);
     loadTileMap();
 
-    Player player(Vector2{ 100, 100 });
+    Player player(Vector2{ 100, 0 });
+    player.loadSounds();
 
     const Rectangle floor = {
         .x = 0,
@@ -30,6 +32,8 @@ int main(void) {
         }
         EndDrawing();
     }
-    CloseWindow(); // Close window and OpenGL context
+
+    CloseAudioDevice();
+    CloseWindow(); // Close OpenGL context also
     return 0;
 }

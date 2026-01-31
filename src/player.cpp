@@ -15,11 +15,26 @@ static int getInputDir() {
 Player::Player(Vector2 pos) :
     pos(pos), velocity(Vector2One()), canJump(true), collision(Rectangle{ 0, 0, 30, 30 }) {}
 
+Player::~Player() {
+    UnloadSound(jumpSound);
+    UnloadSound(maskSound);
+    UnloadSound(deathSound);
+    UnloadSound(winSound);
+}
+
+void Player::loadSounds() {
+    jumpSound = LoadSound("sfx/jump.wav"); 
+    maskSound = LoadSound("sfx/mask.wav");
+    deathSound = LoadSound("sfx/death.wav");
+    winSound = LoadSound("sfx/win.wav");
+}
+
 void Player::updatePosition(float delta, Rectangle floor) {
     applyGravity(delta);
 
     if ((IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) && canJump) {
         velocity.y -= kJumpVelocity;
+        PlaySound(jumpSound);
     }
     if ((IsKeyReleased(KEY_W) || IsKeyReleased(KEY_UP)) && (velocity.y < 0)) {
         velocity.y *= 0.5;
