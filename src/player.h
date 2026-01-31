@@ -1,7 +1,6 @@
 #pragma once
 
 #include "raylib.h"
-#include "common.h"
 
 struct Player {
     static constexpr float kMaxSpeed = 320.0;

@@ -12,7 +12,7 @@ static int getInputDir() {
     }
 }
 
-Player::Player(Vector2 pos) : 
+Player::Player(Vector2 pos) :
     pos(pos), velocity(Vector2One()), canJump(true), collision(Rectangle{ 0, 0, 30, 30 }) {}
 
 void Player::updatePosition(float delta, Rectangle floor) {
@@ -24,7 +24,7 @@ void Player::updatePosition(float delta, Rectangle floor) {
     if ((IsKeyReleased(KEY_W) || IsKeyReleased(KEY_UP)) && (velocity.y < 0)) {
         velocity.y *= 0.5;
     }
-    
+
     int inputDir = getInputDir();
     if (inputDir) {
         velocity.x += inputDir * kAcceleration * delta;
