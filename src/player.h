@@ -15,7 +15,7 @@ struct Player {
     Vector2 velocity;
     bool canJump;
     Rectangle collision;
-    Texture2D sprite;
+    Texture2D playerSprite;
 
     Sound jumpSound;
     Sound maskSound;

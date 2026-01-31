@@ -4,6 +4,10 @@
 #include "assets.h"
 #include "tiles.h"
 
+void drawHelp() {
+    DrawText("W (ARROW UP) - JUMP, A/D (ARROW LEFT/ARROW RIGHT) - LEFT-RIGHT", 50, 0, 40, WHITE);
+}
+
 int main(void) {
     InitWindow(screenWidth, screenHeight, kGameTitle.c_str());
     InitAudioDevice();
@@ -19,13 +23,6 @@ int main(void) {
     Player player(Vector2{ 100, 0 });
     player.loadSounds();
 
-    const Rectangle floor = {
-        .x = 0,
-        .y = 250,
-        .width = 1000,
-        .height = 10,
-    };
-
     createFloor();
 
     while (!WindowShouldClose()) { // Detect window close button or ESC key
@@ -37,9 +34,9 @@ int main(void) {
             ClearBackground(BLACK);
             // loadTileMap();
             DrawTexture(getTile(tiles::BLOCK), 20, 20, WHITE);
-            // DrawRectangleRec(floor, WHITE);
             drawGrid();
             player.draw();
+            drawHelp();
         }
         EndDrawing();
     }

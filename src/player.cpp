@@ -34,7 +34,12 @@ void Player::loadSounds() {
 }
 
 void Player::draw() {
-    DrawTexture(sprite, roundf(pos.x), roundf(pos.y), WHITE);
+    playerSprite = velocity.x ? getTile(tiles::CHAR_MOVE) : getTile(tiles::CHAR_IDLE);
+    DrawTextureRec(
+        playerSprite, 
+        Rectangle{ 0, 0, -1.0f * playerSprite.width, (float)playerSprite.height }, 
+        Vector2{ roundf(pos.x), roundf(pos.y) }, WHITE
+    );
 }
 
 void Player::updatePosition(float delta) {
@@ -51,11 +56,10 @@ void Player::updatePosition(float delta) {
 
     int inputDir = getInputDir();
     if (inputDir) {
-        sprite = getTile(tiles::CHAR_MOVE);
         velocity.x += inputDir * kAcceleration * delta;
         velocity.x = Clamp(velocity.x, -kMaxSpeed, kMaxSpeed);
     } else {
-        sprite = getTile(tiles::CHAR_IDLE);
+        playerSprite = getTile(tiles::CHAR_IDLE);
         velocity.x = Lerp(velocity.x, 0, kFriction * delta);
     }
 

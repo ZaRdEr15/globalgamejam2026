@@ -34,9 +34,9 @@ void loadTileMap() {
                 .height = tileSizeHeight,
             };
             ImageCrop(&tile, crop);
-            printf("image size: %d, %d\n", tile.width, tile.height);
+            //printf("image size: %d, %d\n", tile.width, tile.height);
             ImageResize(&tile, kGridSize, kGridSize);
-            printf("image new size: %d, %d\n", tile.width, tile.height);
+            //printf("image new size: %d, %d\n", tile.width, tile.height);
             gTiles[imagePos] = LoadTextureFromImage(tile);
             SetTextureFilter(gTiles[imagePos], TEXTURE_FILTER_POINT);
             // if (tileX == 1 && tileY == 0) {
@@ -44,7 +44,7 @@ void loadTileMap() {
             //     // DrawTexture(getTile(static_cast<tiles::TILE_TYPES>(1)), 20, 20, WHITE);
             //     // DrawTexture(gTiles[1], 20, 20, WHITE);
             // }
-            printf("x: %f, y: %f, imgagePos: %d\n", crop.x, crop.y, imagePos);
+            //printf("x: %f, y: %f, imgagePos: %d\n", crop.x, crop.y, imagePos);
             imagePos++;
         }
     }
