@@ -2,7 +2,6 @@
 #include "assets.h"
 #include "raymath.h"
 #include <raylib.h>
-#include "common.h"
 #include "raylib.h"
 #include "raymath.h"
 #include "tiles.h"
@@ -47,6 +46,7 @@ void Player::updatePosition(float delta) {
     }
     if ((IsKeyReleased(KEY_W) || IsKeyReleased(KEY_UP)) && (velocity.y < 0)) {
         velocity.y *= 0.5;
+        canJump = false;
     }
 
     int inputDir = getInputDir();
@@ -62,17 +62,13 @@ void Player::updatePosition(float delta) {
     applyVelocityToPos(delta);
     syncCollisionRect();
 
-    auto grid = getGrid();
-    for (const auto &tile : *grid) {
-        auto tileRect = tile->getRectangle();
-        printf("checking tilerect: (%f, %f)\n", tileRect.x, tileRect.y);
+    auto &grid = getGrid();
+    for (const auto &tile : grid) {
+        Rectangle tileRect = tile->getRectangle();
         if (CheckCollisionRecs(collision, tileRect) && (velocity.y >= 0)) {
             velocity.y = 0;
             canJump = true;
             pos.y = tileRect.y - collision.height; // no clipping, snap
-        } else {
-            canJump = false;
-
         }
     }
 }

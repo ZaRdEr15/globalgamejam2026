@@ -6,4 +6,4 @@ void initializeGrid();
 void drawGrid();
 void createFloor();
 
-const std::array<std::unique_ptr<DrawableObject>, kTotalGrids>* getGrid();
+const std::array<std::unique_ptr<DrawableObject>, kTotalGrids>& getGrid();

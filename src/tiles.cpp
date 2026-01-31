@@ -97,6 +97,6 @@ void createFloor() {
     }
 }
 
-const std::array<std::unique_ptr<DrawableObject>, kTotalGrids>* getGrid() {
-    return &gGrids;
+const std::array<std::unique_ptr<DrawableObject>, kTotalGrids>& getGrid() {
+    return gGrids;
 }

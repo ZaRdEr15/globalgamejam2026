@@ -1,8 +1,6 @@
 #pragma once
 
-#include "common.h"
 #include "raylib.h"
-#include <array>
 
 struct Player {
     // Player movement constants
