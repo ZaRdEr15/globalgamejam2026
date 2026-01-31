@@ -25,7 +25,7 @@ int main(void) {
     SetMusicVolume(mainTheme, 0.1);
     PlayMusicStream(mainTheme);
 
-    Player player(Vector2{ 100, 0 });
+    Player player{};
     player.loadSounds();
 
     createFloor();

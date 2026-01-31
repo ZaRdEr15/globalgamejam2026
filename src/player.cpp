@@ -16,8 +16,11 @@ static int getInputDir() {
     }
 }
 
-Player::Player(Vector2 pos) :
-    pos(pos), velocity(Vector2One()), canJump(true), collision(Rectangle{ 0, 0, kGridSize, kGridSize }) {}
+Player::Player() :
+    pos(kRespawnPoint),
+    velocity(Vector2One()), 
+    canJump(true), 
+    collision(Rectangle{ 0, 0, kGridSize, kGridSize }) {}
 
 Player::~Player() {
     UnloadSound(jumpSound);
@@ -66,6 +69,10 @@ void Player::draw() {
 }
 
 void Player::updatePosition(float delta) {
+    if (IsKeyPressed(KEY_R)) {
+        respawn();
+    }
+
     applyGravity(delta);
 
     if ((IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) && canJump) {
@@ -98,6 +105,12 @@ void Player::updatePosition(float delta) {
             pos.y = tileRect.y - collision.height; // no clipping, snap
         }
     }
+}
+
+void Player::respawn() {
+    pos = kRespawnPoint;
+    velocity = Vector2Zero();
+    syncCollisionRect();
 }
 
 void Player::syncCollisionRect() {
