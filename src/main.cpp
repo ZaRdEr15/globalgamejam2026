@@ -31,7 +31,7 @@ int main(void) {
     while (!WindowShouldClose()) { // Detect window close button or ESC key
         UpdateMusicStream(mainTheme);
         float deltaTime = GetFrameTime();
-        player.updatePosition(deltaTime, floor);
+        player.updatePosition(deltaTime);
         BeginDrawing();
         {
             ClearBackground(BLACK);

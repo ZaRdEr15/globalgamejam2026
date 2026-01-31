@@ -1,5 +1,6 @@
 #pragma once
 
+#include <raylib.h>
 #include <string>
 
 inline constexpr int screenWidth = 1000;
@@ -12,4 +13,6 @@ inline const std::string kGameTitle = "TITLE_PLACHOLDER";
 
 struct DrawableObject {
     virtual void Draw() = 0;
+    virtual bool hasCollision() = 0;
+    virtual Rectangle getRectangle() = 0;
 };

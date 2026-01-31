@@ -5,7 +5,6 @@
 #include "assets.h"
 
 std::array<std::unique_ptr<DrawableObject>, kTotalGrids> gGrids = {};
-
 void setGridAtXY(int x, int y, std::unique_ptr<DrawableObject> obj) {
     gGrids[(y * kGridsX) + x] = std::move(obj);
 }
@@ -25,6 +24,12 @@ struct Empty : DrawableObject {
     virtual void Draw() {
         // printf("Drawing empty at (%f, %f)\n", pos.x, pos.y);
         DrawTextureRec(getTile(tiles::EMPTY), rec, pos, WHITE);
+    }
+    virtual bool hasCollision() {
+        return false;
+    }
+    virtual Rectangle getRectangle() {
+        return {0, 0, 0, 0};
     }
 };
 
@@ -57,6 +62,16 @@ struct Floor : DrawableObject {
         // printf("Drawing floor at (%f, %f)\n", pos.x, pos.y);
         DrawTextureRec(getTile(tiles::BLOCK), rect, pos, WHITE);
     }
+    virtual bool hasCollision() {
+        // printf("Drawing floor at (%f, %f)\n", pos.x, pos.y);
+        return true;
+    }
+    virtual Rectangle getRectangle() {
+        auto rect_copy = rect;
+        rect_copy.x = pos.x;
+        rect_copy.y = pos.y;
+        return rect_copy;
+    }
 
     Vector2 pos;
     Rectangle rect;
@@ -80,4 +95,8 @@ void createFloor() {
 
         setGridAtXY(gridX, gridY, std::move(floor));
     }
+}
+
+const std::array<std::unique_ptr<DrawableObject>, kTotalGrids>* getGrid() {
+    return &gGrids;
 }

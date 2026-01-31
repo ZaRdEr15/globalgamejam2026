@@ -1,8 +1,11 @@
 #include "player.h"
-
 #include "assets.h"
 #include "raymath.h"
 #include <raylib.h>
+#include "common.h"
+#include "raylib.h"
+#include "raymath.h"
+#include "tiles.h"
 
 static int getInputDir() {
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
@@ -25,7 +28,7 @@ Player::~Player() {
 }
 
 void Player::loadSounds() {
-    jumpSound = LoadSound("sfx/jump.wav"); 
+    jumpSound = LoadSound("sfx/jump.wav");
     maskSound = LoadSound("sfx/mask.wav");
     deathSound = LoadSound("sfx/death.wav");
     winSound = LoadSound("sfx/win.wav");
@@ -35,7 +38,7 @@ void Player::draw() {
     DrawTexture(sprite, roundf(pos.x), roundf(pos.y), WHITE);
 }
 
-void Player::updatePosition(float delta, Rectangle floor) {
+void Player::updatePosition(float delta) {
     applyGravity(delta);
 
     if ((IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) && canJump) {
@@ -59,12 +62,18 @@ void Player::updatePosition(float delta, Rectangle floor) {
     applyVelocityToPos(delta);
     syncCollisionRect();
 
-    if (CheckCollisionRecs(collision, floor) && (velocity.y >= 0)) {
-        velocity.y = 0;
-        canJump = true;
-        pos.y = floor.y - collision.height; // no clipping, snap
-    } else {
-        canJump = false;
+    auto grid = getGrid();
+    for (const auto &tile : *grid) {
+        auto tileRect = tile->getRectangle();
+        printf("checking tilerect: (%f, %f)\n", tileRect.x, tileRect.y);
+        if (CheckCollisionRecs(collision, tileRect) && (velocity.y >= 0)) {
+            velocity.y = 0;
+            canJump = true;
+            pos.y = tileRect.y - collision.height; // no clipping, snap
+        } else {
+            canJump = false;
+
+        }
     }
 }
 

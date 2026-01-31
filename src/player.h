@@ -1,6 +1,8 @@
 #pragma once
 
+#include "common.h"
 #include "raylib.h"
+#include <array>
 
 struct Player {
     // Player movement constants
@@ -26,7 +28,7 @@ struct Player {
     ~Player();
     void loadSounds();
     void draw();
-    void updatePosition(float delta, Rectangle floorCollisionRect);
+    void updatePosition(float delta);
     void syncCollisionRect();
     float getGravity();
     void applyGravity(float delta);
