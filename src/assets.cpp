@@ -38,6 +38,7 @@ void loadTileMap() {
             ImageResize(&tile, kGridSize, kGridSize);
             printf("image new size: %d, %d\n", tile.width, tile.height);
             gTiles[imagePos] = LoadTextureFromImage(tile);
+            SetTextureFilter(gTiles[imagePos], TEXTURE_FILTER_POINT);
             // if (tileX == 1 && tileY == 0) {
             //     printf("x: %f, y: %f\n", crop.x, crop.y);
             //     // DrawTexture(getTile(static_cast<tiles::TILE_TYPES>(1)), 20, 20, WHITE);

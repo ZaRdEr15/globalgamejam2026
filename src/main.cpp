@@ -39,7 +39,7 @@ int main(void) {
             DrawTexture(getTile(tiles::BLOCK), 20, 20, WHITE);
             // DrawRectangleRec(floor, WHITE);
             drawGrid();
-            DrawRectangleRec(player.collision, RED); // debug
+            player.draw();
         }
         EndDrawing();
     }

@@ -1,6 +1,8 @@
 #include "player.h"
-#include "raylib.h"
+
+#include "assets.h"
 #include "raymath.h"
+#include <raylib.h>
 
 static int getInputDir() {
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
@@ -29,6 +31,10 @@ void Player::loadSounds() {
     winSound = LoadSound("sfx/win.wav");
 }
 
+void Player::draw() {
+    DrawTexture(sprite, roundf(pos.x), roundf(pos.y), WHITE);
+}
+
 void Player::updatePosition(float delta, Rectangle floor) {
     applyGravity(delta);
 
@@ -42,9 +48,11 @@ void Player::updatePosition(float delta, Rectangle floor) {
 
     int inputDir = getInputDir();
     if (inputDir) {
+        sprite = getTile(tiles::CHAR_MOVE);
         velocity.x += inputDir * kAcceleration * delta;
         velocity.x = Clamp(velocity.x, -kMaxSpeed, kMaxSpeed);
     } else {
+        sprite = getTile(tiles::CHAR_IDLE);
         velocity.x = Lerp(velocity.x, 0, kFriction * delta);
     }
 

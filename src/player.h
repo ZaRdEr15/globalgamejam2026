@@ -15,6 +15,7 @@ struct Player {
     Vector2 velocity;
     bool canJump;
     Rectangle collision;
+    Texture2D sprite;
 
     Sound jumpSound;
     Sound maskSound;
@@ -24,6 +25,7 @@ struct Player {
     Player(Vector2 pos);
     ~Player();
     void loadSounds();
+    void draw();
     void updatePosition(float delta, Rectangle floorCollisionRect);
     void syncCollisionRect();
     float getGravity();

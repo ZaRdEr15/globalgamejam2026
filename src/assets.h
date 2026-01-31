@@ -1,3 +1,5 @@
+#pragma once
+
 #include <raylib.h>
 
 constexpr unsigned char tileSizeHeight = 16;
@@ -12,6 +14,9 @@ namespace tiles {
 enum TILE_TYPES : unsigned short {
     EMPTY = 0,
     BLOCK = 10,
+    CHAR_IDLE = 241,
+    CHAR_MOVE = 243,
+    CHAR_JUMP = 244
 };
 
 }
