@@ -1,10 +1,12 @@
 #include "raylib.h"
 #include "player.h"
 #include "common.h"
+#include "assets.h"
 
 int main(void) {
     InitWindow(screenWidth, screenHeight, kGameTitle.c_str());
     SetTargetFPS(60);
+    loadTileMap();
 
     Player player(Vector2{ 100, 100 });
 
@@ -19,9 +21,13 @@ int main(void) {
         float deltaTime = GetFrameTime();
         player.updatePosition(deltaTime, floor);
         BeginDrawing();
-            ClearBackground(RAYWHITE);
+        {
+            ClearBackground(BLACK);
+            // loadTileMap();
+            DrawTexture(getTile(tiles::BLOCK), 20, 20, WHITE);
             DrawRectangleRec(player.collision, RED); // debug
-            DrawRectangleRec(floor, BLACK);
+            DrawRectangleRec(floor, WHITE);
+        }
         EndDrawing();
     }
     CloseWindow(); // Close window and OpenGL context
