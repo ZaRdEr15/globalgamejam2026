@@ -21,7 +21,7 @@ src/%.o: src/%.cpp
 .PHONY: clean
 
 clean:
-	rm -f src/*.o $(TARGET)
+	rm -f src/*.o src/*.d $(TARGET)
 
 web: ${SRCS}
 	emcc -o game.html ${SRCS} -Os -Wall /usr/local/lib/libraylib.web.a -I src/ -I/usr/local/include/ -s ASYNCIFY -L src/ -Llibraylib -s USE_GLFW=3 --shell-file web/shell.html -DPLATFORM_WEB
