@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <raylib.h>
 #include "assets.h"
+#include "common.h"
 
 static std::array<Texture2D, 400> gTiles{};
 
@@ -33,6 +34,9 @@ void loadTileMap() {
                 .height = tileSizeHeight,
             };
             ImageCrop(&tile, crop);
+            printf("image size: %d, %d\n", tile.width, tile.height);
+            ImageResize(&tile, kGridSize, kGridSize);
+            printf("image new size: %d, %d\n", tile.width, tile.height);
             gTiles[imagePos] = LoadTextureFromImage(tile);
             // if (tileX == 1 && tileY == 0) {
             //     printf("x: %f, y: %f\n", crop.x, crop.y);

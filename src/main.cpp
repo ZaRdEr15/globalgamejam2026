@@ -2,12 +2,14 @@
 #include "player.h"
 #include "common.h"
 #include "assets.h"
+#include "tiles.h"
 
 int main(void) {
     InitWindow(screenWidth, screenHeight, kGameTitle.c_str());
     InitAudioDevice();
     SetTargetFPS(60);
     loadTileMap();
+    initializeGrid();
 
     Player player(Vector2{ 100, 0 });
     player.loadSounds();
@@ -19,6 +21,8 @@ int main(void) {
         .height = 10,
     };
 
+    createFloor();
+
     while (!WindowShouldClose()) { // Detect window close button or ESC key
         float deltaTime = GetFrameTime();
         player.updatePosition(deltaTime, floor);
@@ -27,8 +31,9 @@ int main(void) {
             ClearBackground(BLACK);
             // loadTileMap();
             DrawTexture(getTile(tiles::BLOCK), 20, 20, WHITE);
+            // DrawRectangleRec(floor, WHITE);
+            drawGrid();
             DrawRectangleRec(player.collision, RED); // debug
-            DrawRectangleRec(floor, WHITE);
         }
         EndDrawing();
     }
