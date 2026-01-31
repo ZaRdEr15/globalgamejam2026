@@ -14,6 +14,7 @@ int main(void) {
     SetTargetFPS(60);
     loadTileMap();
     initializeGrid();
+    printf("Grids X: %d, Grids Y: %d\n", kGridsX, kGridsY);
 
     Music mainTheme = LoadMusicStream("sfx/theme.mp3");
     mainTheme.looping = true;

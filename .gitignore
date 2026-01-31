@@ -2,6 +2,7 @@ game
 game.html
 game.js
 game.wasm
+game.data
 src/*.o
 src/*.d
 .cache

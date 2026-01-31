@@ -3,8 +3,8 @@
 #include <raylib.h>
 #include <string>
 
-inline constexpr int screenWidth = 1000;
-inline constexpr int screenHeight = 650;
+inline constexpr int screenWidth = 800;
+inline constexpr int screenHeight = 640;
 inline constexpr int kGridSize = 16;
 inline constexpr int kGridsX = screenWidth / kGridSize;
 inline constexpr int kGridsY = screenHeight / kGridSize;

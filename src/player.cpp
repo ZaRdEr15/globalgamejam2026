@@ -17,7 +17,7 @@ static int getInputDir() {
 }
 
 Player::Player(Vector2 pos) :
-    pos(pos), velocity(Vector2One()), canJump(true), collision(Rectangle{ 0, 0, 30, 30 }) {}
+    pos(pos), velocity(Vector2One()), canJump(true), collision(Rectangle{ 0, 0, kGridSize, kGridSize }) {}
 
 Player::~Player() {
     UnloadSound(jumpSound);
@@ -37,7 +37,7 @@ void Player::draw() {
     playerSprite = velocity.x ? getTile(tiles::CHAR_MOVE) : getTile(tiles::CHAR_IDLE);
     DrawTextureRec(
         playerSprite, 
-        Rectangle{ 0, 0, -1.0f * playerSprite.width, (float)playerSprite.height }, 
+        Rectangle{ 0, 0, -1.0f * playerSprite.width, (float)playerSprite.height },
         Vector2{ roundf(pos.x), roundf(pos.y) }, WHITE
     );
 }
