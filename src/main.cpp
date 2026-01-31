@@ -11,6 +11,11 @@ int main(void) {
     loadTileMap();
     initializeGrid();
 
+    Music mainTheme = LoadMusicStream("sfx/theme.mp3");
+    mainTheme.looping = true;
+    SetMusicVolume(mainTheme, 0.1);
+    PlayMusicStream(mainTheme);
+
     Player player(Vector2{ 100, 0 });
     player.loadSounds();
 
@@ -24,6 +29,7 @@ int main(void) {
     createFloor();
 
     while (!WindowShouldClose()) { // Detect window close button or ESC key
+        UpdateMusicStream(mainTheme);
         float deltaTime = GetFrameTime();
         player.updatePosition(deltaTime, floor);
         BeginDrawing();
@@ -37,7 +43,7 @@ int main(void) {
         }
         EndDrawing();
     }
-
+    UnloadMusicStream(mainTheme);
     CloseAudioDevice();
     CloseWindow(); // Close OpenGL context also
     return 0;
