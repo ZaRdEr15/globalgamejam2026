@@ -34,12 +34,35 @@ void Player::loadSounds() {
 }
 
 void Player::draw() {
-    playerSprite = velocity.x ? getTile(tiles::CHAR_MOVE) : getTile(tiles::CHAR_IDLE);
-    DrawTextureRec(
-        playerSprite, 
-        Rectangle{ 0, 0, -1.0f * playerSprite.width, (float)playerSprite.height },
-        Vector2{ roundf(pos.x), roundf(pos.y) }, WHITE
-    );
+    static bool facingLeft = false;
+    static int currentAnimationSteps = 0;
+    static bool animationMove = false;
+    TraceLog(LOG_DEBUG, "steps: %d", currentAnimationSteps);
+
+    if (velocity.x < -0.1) facingLeft = true;
+    if (velocity.x > 0.1) facingLeft = false;
+
+    if (std::abs(velocity.x) > 0.1) {
+        ++currentAnimationSteps;
+        if (currentAnimationSteps >= kAnimationSteps) {
+            currentAnimationSteps = 0;
+            animationMove = !animationMove;
+        }
+        playerSprite = animationMove ? getTile(tiles::CHAR_MOVE) : getTile(tiles::CHAR_IDLE);
+    } else {
+        currentAnimationSteps = 0;
+        animationMove = false;
+        playerSprite = getTile(tiles::CHAR_IDLE);
+    }
+
+    if (std::abs(velocity.y) > 0.1) {
+        playerSprite = getTile(tiles::CHAR_JUMP);
+    }
+
+    Rectangle source{};
+    source.width = facingLeft ? -1.0 * playerSprite.width : 1.0 * playerSprite.width;
+    source.height = static_cast<float>(playerSprite.height);
+    DrawTextureRec(playerSprite, source, pos, WHITE);
 }
 
 void Player::updatePosition(float delta) {

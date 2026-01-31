@@ -5,10 +5,14 @@
 #include "tiles.h"
 
 void drawHelp() {
-    DrawText("W (ARROW UP) - JUMP, A/D (ARROW LEFT/ARROW RIGHT) - LEFT-RIGHT", 50, 0, 40, WHITE);
+    constexpr int kHelpXOffset = 50;
+    constexpr int kFontSize = 20;
+    DrawText("W (ARROW UP) - JUMP", kHelpXOffset, 0, kFontSize, WHITE);
+    DrawText("A/D (ARROW LEFT/ARROW RIGHT) - LEFT-RIGHT", kHelpXOffset, 30, kFontSize, WHITE);
 }
 
 int main(void) {
+    SetTraceLogLevel(LOG_DEBUG);
     InitWindow(screenWidth, screenHeight, kGameTitle.c_str());
     InitAudioDevice();
     SetTargetFPS(60);

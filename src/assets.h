@@ -16,7 +16,9 @@ enum TILE_TYPES : unsigned short {
     BLOCK = 10,
     CHAR_IDLE = 241,
     CHAR_MOVE = 243,
-    CHAR_JUMP = 244
+    CHAR_JUMP = 245,
+    MASK_BLUE = 324,
+    MASK_RED = 344
 };
 
 }

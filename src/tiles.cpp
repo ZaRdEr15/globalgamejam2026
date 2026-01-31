@@ -79,7 +79,7 @@ struct Floor : DrawableObject {
 };
 
 void createFloor() {
-    const int gridY = 10;
+    const int gridY = 20;
     for (int gridX = 0; gridX < kGridsX; gridX++) {
         const Rectangle floor_tile = {
             .x = 0,
