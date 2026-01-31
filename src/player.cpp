@@ -2,9 +2,9 @@
 #include "assets.h"
 #include "raymath.h"
 #include <raylib.h>
-#include "raylib.h"
 #include "raymath.h"
 #include "tiles.h"
+#include <array>
 
 static int getInputDir() {
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
