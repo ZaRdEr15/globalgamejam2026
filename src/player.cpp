@@ -1,6 +1,8 @@
 #include "player.h"
 #include "assets.h"
+#include "common.h"
 #include "raymath.h"
+#include <memory>
 #include <raylib.h>
 #include "raymath.h"
 #include "tiles.h"
@@ -18,8 +20,8 @@ static int getInputDir() {
 
 Player::Player() :
     pos(kRespawnPoint),
-    velocity(Vector2One()), 
-    canJump(true), 
+    velocity(Vector2One()),
+    canJump(true),
     collision(Rectangle{ 0, 0, kGridSize, kGridSize }) {}
 
 Player::~Player() {
@@ -100,7 +102,7 @@ void Player::updatePosition(float delta) {
     applyVelocityToPos(delta);
     syncCollisionRect();
 
-    auto &grid = getGrid();
+    const std::array<std::unique_ptr<DrawableObject>, kTotalGrids> &grid = getGrid();
     for (const auto &tile : grid) {
         Rectangle tileRect = tile->getRectangle();
         if (CheckCollisionRecs(collision, tileRect) && (velocity.y >= 0)) {

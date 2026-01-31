@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common.h"
 #include "raylib.h"
 #include <raymath.h>
 
@@ -14,7 +15,7 @@ struct Player {
 
     static constexpr int kAnimationSteps = 10;
 
-    const Vector2 kRespawnPoint = { 100, 10 };
+    const Vector2 kRespawnPoint = { 1, kGridsY - 2 };
 
     Vector2 pos;
     Vector2 velocity;

@@ -51,9 +51,9 @@ void drawGrid() {
     }
 }
 
-struct Floor : DrawableObject {
+struct Platform : DrawableObject {
 
-    Floor(Rectangle r, Vector2 p) {
+    Platform(Rectangle r, Vector2 p) {
         rect = r;
         pos = p;
     };
@@ -78,9 +78,9 @@ struct Floor : DrawableObject {
     tiles::TILE_TYPES type;
 };
 
-void createFloor() {
-    const int gridY = 20;
-    for (int gridX = 0; gridX < kGridsX; gridX++) {
+void createPlatform(int x, int y, int width) {
+    const int gridY = y;
+    for (int i = 0; i < width; i++) {
         const Rectangle floor_tile = {
             .x = 0,
             .y = 0,
@@ -88,13 +88,58 @@ void createFloor() {
             .height = kGridSize,
         };
         Vector2 pos = {
-            .x = static_cast<float>(gridX * kGridSize),
+            .x = static_cast<float>(x * kGridSize),
             .y = static_cast<float>(gridY * kGridSize),
         };
-        auto floor = std::make_unique<Floor>(floor_tile, pos);
+        auto floor = std::make_unique<Platform>(floor_tile, pos);
 
-        setGridAtXY(gridX, gridY, std::move(floor));
+        setGridAtXY(x, gridY, std::move(floor));
+        x++;
     }
+}
+
+void generateLevel() {
+    SetRandomSeed((int)time(NULL));
+
+    const int min_gap_x = 2;
+    const int max_gap_x = 4;
+    const int min_gap_start = 6;
+    const int max_up = -14;
+    const int min_down = 14;
+
+    int current_x = min_gap_start;
+    int current_y = kGridsY / 2 + GetRandomValue(max_up, min_down);
+
+    while (current_x < kGridsX - 6) {
+        while (current_y >= kGridsY - 4) {
+            current_y += max_up;
+        }
+
+        while (current_y <= 0) {
+            current_y += min_down;
+        }
+
+        createPlatform(current_x, current_y, 3);
+
+        current_y += GetRandomValue(max_up, min_down);
+        current_x += GetRandomValue(min_gap_x, max_gap_x);
+    }
+}
+
+void createEnd() {
+    const int width = 3;
+    const int y = kGridsY / 2;
+    const int x = kGridsX - width;
+
+    createPlatform(x, y, 3);
+};
+
+void createFloor() {
+    const int gridY = kGridsY - 1;
+
+    createPlatform(0, gridY / 2, 3);
+    createEnd();
+    generateLevel();
 }
 
 const std::array<std::unique_ptr<DrawableObject>, kTotalGrids>& getGrid() {
