@@ -22,7 +22,8 @@ Player::Player() :
     pos(kRespawnPoint),
     velocity(Vector2One()),
     canJump(true),
-    collision(Rectangle{ 0, 0, kGridSize, kGridSize }) {}
+    collision(Rectangle{ 0, 0, kGridSize, kGridSize }),
+    mask(NONE) {}
 
 Player::~Player() {
     UnloadSound(jumpSound);
@@ -42,7 +43,7 @@ void Player::draw() {
     static bool facingLeft = false;
     static int currentAnimationSteps = 0;
     static bool animationMove = false;
-    TraceLog(LOG_DEBUG, "steps: %d", currentAnimationSteps);
+    // TraceLog(LOG_DEBUG, "steps: %d", currentAnimationSteps);
 
     if (velocity.x < -0.1) facingLeft = true;
     if (velocity.x > 0.1) facingLeft = false;
@@ -64,14 +65,27 @@ void Player::draw() {
         playerSprite = getTile(tiles::CHAR_JUMP);
     }
 
-    if (IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_X)) {
+    if (IsKeyPressed(KEY_Z)) {
         PlaySound(maskSound);
+        mask = BLUE_MASK;
+    }
+    else if (IsKeyPressed(KEY_X)) {
+        PlaySound(maskSound);
+        mask = RED_MASK;
     }
 
     Rectangle source{};
     source.width = facingLeft ? -1.0 * playerSprite.width : 1.0 * playerSprite.width;
     source.height = static_cast<float>(playerSprite.height);
-    DrawTextureRec(playerSprite, source, pos, WHITE);
+
+    // We need an actual mask here!
+    auto color = WHITE;
+    if (mask == BLUE_MASK) {
+        color = BLUE;
+    } else if (mask == RED_MASK) {
+        color = RED;
+    }
+    DrawTextureRec(playerSprite, source, pos, color);
 }
 
 void Player::updatePosition(float delta) {
@@ -82,12 +96,15 @@ void Player::updatePosition(float delta) {
     applyGravity(delta);
 
     if ((IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) && canJump) {
+        if (velocity.y > 0) {
+            velocity.y = 0;
+        }
         velocity.y -= kJumpVelocity;
+        canJump = false;
         PlaySound(jumpSound);
     }
     if ((IsKeyReleased(KEY_W) || IsKeyReleased(KEY_UP)) && (velocity.y < 0)) {
         velocity.y *= 0.5;
-        canJump = false;
     }
 
     int inputDir = getInputDir();
@@ -106,11 +123,34 @@ void Player::updatePosition(float delta) {
     for (const auto &tile : grid) {
         Rectangle tileRect = tile->getRectangle();
         if (CheckCollisionRecs(collision, tileRect) && (velocity.y >= 0)) {
-            velocity.y = 0;
-            canJump = true;
+            auto type = tile->getType();
+            if (type == grid::PLATFORM_BLUE || type == grid::PLATFORM_RED) {
+                velocity.y = 0;
+                velocity.y -= kJumpVelocity;
+                PlaySound(jumpSound);
+
+                if (type == grid::PLATFORM_BLUE && mask == BLUE_MASK) {
+                    canJump = true;
+                }
+
+                if (type == grid::PLATFORM_RED && mask == RED_MASK) {
+                    velocity.y -= kJumpVelocity * 0.55;
+                }
+            } else {
+                velocity.y = 0;
+                canJump = true;
+            }
             pos.y = tileRect.y - collision.height; // no clipping, snap
         }
     }
+
+    if (pos.y > kGridsY * kGridSize) {
+        pos = kRespawnPoint;
+    }
+}
+
+Vector2 Player::getPoition() {
+    return pos;
 }
 
 void Player::respawn() {

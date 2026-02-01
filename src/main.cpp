@@ -27,6 +27,14 @@ int main(void) {
     PlayMusicStream(mainTheme);
 
     Player player{};
+    Vector2 player_pos = player.getPoition();
+    Camera2D camera{
+        .offset =  {screenWidth / 2.0f, screenHeight / 2.0f},// {screenWidth / 2.0f, screenHeight / 2.0f},
+        .target = {player_pos.x + 20.0f, player_pos.y + 20.0f},
+        .rotation = 0.0,
+        .zoom = 1.0,
+    };
+
     player.loadSounds();
 
     createFloor();
@@ -35,13 +43,18 @@ int main(void) {
         UpdateMusicStream(mainTheme);
         float deltaTime = GetFrameTime();
         player.updatePosition(deltaTime);
+        camera.target = player.getPoition();
+        camera.target.x += 20.0f;
+        camera.target.y += 20.0f;
         BeginDrawing();
         {
+            BeginMode2D(camera);
             ClearBackground(BLACK);
             // loadTileMap();
             DrawTexture(getTile(tiles::BLOCK), 20, 20, WHITE);
             drawGrid();
             player.draw();
+            EndMode2D();
             drawHelp();
         }
         EndDrawing();
